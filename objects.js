@@ -69,3 +69,30 @@ console.log(description, calories);
 const { id, ...mealWithoutId } = updatedMeal2;
 
 console.log(mealWithoutId);
+
+//---------------------------------
+
+const meal3 = {
+  description: 'Dinner',
+};
+// 1. In an Immutable way, add a property to the
+// meal called calories setting it's value to 200,
+// then log the result to the console
+const meal3WithCalories = {
+    ...meal3,
+    caloriess: 200
+}
+console.log('meal3WithCalories - ', meal3WithCalories)
+// 2. In an Immutable way, increase the calories 
+// by 100 and print the result to the console
+const meal3WithIncreasedCalories = {
+    ...meal3,
+    caloriess: meal3WithCalories.caloriess + 100
+}
+console.log('meal3WithIncreasedCalories - ', meal3WithIncreasedCalories);
+
+// 3. In an Immutable way, remove the calories property and log the result to the console
+const { caloriess, ...meal3WithoutCalories } = meal3WithIncreasedCalories;
+console.log(meal3WithoutCalories);
+
+// See solution at: https://jsbin.com/sunewil/edit?js,console
