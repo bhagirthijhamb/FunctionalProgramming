@@ -10,8 +10,8 @@ const updatedMeals = [ ...meals, meal ];
 console.log(meals, updatedMeals);
 
 // UPDATING ARRAYS
-// What if we want to udate something in an array
-// like the update the description if meal with id: 2
+// What if we want to update something in one object of meals array
+// like update the description of meal with id: 2
 
 // map function
 const numbers = [1, 2, 3];
@@ -28,7 +28,6 @@ const doubledNumbers = numbers.map(double);
 console.log(doubledNumbers);
 
 const updatedMealsDescription = updatedMeals.map(updateDescription);
-
 
 function updateDescription(meal){
     if(meal.id == 2){
@@ -87,6 +86,7 @@ const shorterNamedFriends = updatedFriends.filter(function(name){
 })
 console.log(shorterNamedFriends);
 
+// Reduce function
 // Summarize info on arrays
 const grades = [60, 55, 80, 90, 99, 92, 75, 72];
 // Average grade
@@ -157,5 +157,14 @@ function countReviews(acc, review){
     return { ...acc, [review]: count + 1 };
 }
 console.log(numberOfReview);
+
+const fruits = ['apple', 'apple', 'banana', 'coconut', 'coconut', 'coconut', 'dragon fruit', 'dragon fruit']
+
+const numberOfFruits = fruits.reduce(function (acc, fruit){
+    const count = acc[fruit] || 0;
+    return { ...acc, [fruit]: count + 1}
+}, {})
+
+console.log(numberOfFruits);
 
 
