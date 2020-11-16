@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+</head>
+<body>
+    <script>
+        // const greet = (greeting, name) => `${greeting} ${name}`;
+        const greet = R.curry((greeting, name) => `${greeting} ${name}`);
+
+        console.log(greet('Good morning')('Nate'));
+        console.log(greet('Good morning', 'Nate'));
+
+        const friends = ['Nate', 'Jim', 'Scott', 'Dean'];
+        const friendGreetings = friends.map(greet('Good evening'));
+        console.log(friendGreetings); // ['Good evening Nate', 'Good evening Jim', 'Good evening Scott', 'Good evening Dean']
+    
+    // -------------------------------------------------------
+
+    // Function Composition
+    const sentence = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
+    // split this sentence into a lsit of words
+    const wordList = R.split(' ', sentence); // pattern, data to act on
+    console.log(wordList);
+    // const wordCount = R.length(wordList);
+    const wordCount = R.length(R.split(' ', sentence));
+    // here we took the output of the split function as an input for the length function.
+    // this is exactly what compose provides for us
+    console.log(wordCount); // 69
+
+    // can do this by function composition
+    // Ramda has a function compose that allows us to combine two or more pure functionsand returns a new function that is a combination of those functions
+
+    const countWords = R.compose(R.length, R.split)
+    // compose works from right to left
+    // the last function passed is the first function called int he chain of function calls
+    // countWords() function will take the parameters athat the last (R.split() function expects)
+    console.log(countWords(' ', sentence));
+    // we have got a new reusable function that we can use in other places
+    
+    // what is we want to default the single white space(' ') tot he countWords function as we dont want to pass ' ' everytime we call countWords.
+    // THis is a perfect situation where currying and partial applicaton can come in handly.
+    // All the functions in Randa library are curried, so we can pass some of the parameters. In other words we can perform PA and what will get returned is another function that expects the remaining parameters.
+    // So we can pass the space (' ') to the split function and then we dont need to pass it to the countWords() function
+    
+    const countWords2 = R.compose(R.length, R.split(' '))
+    console.log(countWords2(sentence));
+    
+    // with pipe functions are composed from left to right(unlike compose)
+    const countWords3 = R.pipe(R.split(' '), R.length)
+    console.log(countWords3(sentence));
+
+    //---------------------------------------
+    // Count how many digits there are in the following 
+    // sentence, using functional composition
+
+    // NOTE: If you get stuck, you can get some hints from 
+    // the following jsbin: 
+    // https://jsbin.com/jokefus/2/edit?js,console
+    // my solution is here: https://jsbin.com/duxewec/1/edit?js,console
+
+    const sentence = 'PechaKucha is a presentation style in which 20 slides are shown for 20 seconds each (6 minutes and 40 seconds in total).';
+
+    const numbersInString = R.pipe(
+            R.split(''),
+            R.map(parseInt),
+            R.filter(Number.isInteger),
+            R.length,
+    );
+
+        expect(numbersInString(sentence)).toBe(7);
+
+    console.log('If you see this printed in the console, the test passed!');
+    
+    </script>
+</body>
+</html>
